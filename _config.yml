@@ -2,7 +2,7 @@
 title: DimmWitted
 email: contact.hazy@gmail.com
 description: >
-baseurl: "" # the subpath of your site, e.g. /blog/
+baseurl: "/dw/" # the subpath of your site, e.g. /blog/
 url: "http://yourdomain.com" # the base hostname & protocol for your site
 twitter_username: HazyResearch
 github_username:  HazyResearch

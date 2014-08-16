@@ -16,18 +16,13 @@ compile the DimmWitted support for Julia using stochastic gradient descent
 in DimmWitted that is not covered by this tutorial, following is a list of pages 
 that you might also be interested in.
 
-  1. [How to write other access methods in Julia for DimmWitted?](/julia/scd/) We will
-  show you an example of writing SCD with a column-to-row access method.
-  2. [I am getting a Segmentation Fault! What should I do?](/julia/segfault/) We will show you
-  the set of assumptions that we made on your Julia functions, how to use
-  a simple tool provided by DimmWitted to sanity check these assumptions, and how
+  1. [I am getting a Segmentation Fault, or an ERROR saying my function ''protentially is not thread-safe''! What should I do?](/dw/julia_segfault/) We will show you the set of assumptions that we made on your Julia functions, how to use a simple tool provided by DimmWitted to sanity check these assumptions, and how
   to use the debugging mode in DimmWitted to diagnose the problem.
-  3. [Can I use non-primative data type, e.g., structure, in my data?](/dw/julia_immutable/) Sure, you can, but make sure they are immutable.
-  4. [Can my gradient function accesses some global variables, e.g., stepsize?](/dw/julia_global/) Yes, but you need to see this tutorial.
-  5. [Can I use sparse input matrix?](/dw/julia_sparse/) Yes, you can.
-  6. [Miscellaneous](/julia/misc/). We will document some tips we found in our experience 
-  that we hope you also found useful.
-  7. [Cheat Sheet](/julia/cheetsheet/). 
+  2. [Can I use non-primative data type, e.g., structure, in my data?](/dw/julia_immutable/) Sure, you can, but make sure they are immutable.
+  3. [Can my gradient function accesses some global variables, e.g., stepsize?](/dw/julia_global/) Yes, but you need to see this tutorial.
+  4. [Can I use sparse input matrix?](/dw/julia_sparse/) Yes, you can.
+  5. [How to write other access methods in Julia for DimmWitted?](/dw/julia_scd/) We will show you an example of writing SCD with a column-to-row access method.
+  6. [Cheat Sheet & Miscellaneous](/dw/julia_cheetsheet/).
 
 **Pre-requisites...** To understand this tutorial, we assume that you already went through the
 [installation guideline](/installation/) and have all test passed.

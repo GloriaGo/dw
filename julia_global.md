@@ -85,7 +85,7 @@ dw = DimmWitted.open(examples, model,
 {% endhighlight %}
 
 
-The last twist you need to do is when you cannot
+The last twist you need to do is that you cannot
 use `register_row` to register the function now,
 instead, you need to use a function called
 `register_row2`:

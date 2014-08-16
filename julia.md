@@ -24,7 +24,7 @@ that you might also be interested in.
   to use the debugging mode in DimmWitted to diagnose the problem.
   3. [Can I use non-primative data type, e.g., structure, in my data?](/dw/julia_immutable/) Sure, you can, but make sure they are immutable.
   4. [Can my gradient function accesses some global variables, e.g., stepsize?](/dw/julia_global/) Yes, but you need to see this tutorial.
-  5. [Can I use sparse input matrix?](/julia/sparse/) Yes, you can.
+  5. [Can I use sparse input matrix?](/dw/julia_sparse/) Yes, you can.
   6. [Miscellaneous](/julia/misc/). We will document some tips we found in our experience 
   that we hope you also found useful.
   7. [Cheat Sheet](/julia/cheetsheet/). 
@@ -156,7 +156,7 @@ function signature comes from?**
 >> When you define the data structure `examples` and `models`,
 they are of the type Array{Cdouble,2} and Array{Cdouble,1}. DimmWitted
 will get their types automatically. You can also use other
-primitive types (e.g., Cint) or composite types ([See here](julia_immutable))--
+primitive types (e.g., Cint) or composite types ([See here](/dw/julia_immutable/))--
 just to make sure you change the signature of the function accordingly.
 
 Let's now define the loss function with this signature.

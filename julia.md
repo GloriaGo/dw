@@ -22,9 +22,8 @@ that you might also be interested in.
   the set of assumptions that we made on your Julia functions, how to use
   a simple tool provided by DimmWitted to sanity check these assumptions, and how
   to use the debugging mode in DimmWitted to diagnose the problem.
-  3. [Can I use non-primative data type, e.g., structure, in my data?](/dw/julia/immutable/) Sure, you
-  can, but make sure they are immutable.
-  4. [Can my gradient function accesses some global variables, e.g., stepsize?](/julia/global/) Yes, but you need to see this tutorial.
+  3. [Can I use non-primative data type, e.g., structure, in my data?](/dw/julia_immutable/) Sure, you can, but make sure they are immutable.
+  4. [Can my gradient function accesses some global variables, e.g., stepsize?](/dw/julia_global/) Yes, but you need to see this tutorial.
   5. [Can I use sparse input matrix?](/julia/sparse/) Yes, you can.
   6. [Miscellaneous](/julia/misc/). We will document some tips we found in our experience 
   that we hope you also found useful.

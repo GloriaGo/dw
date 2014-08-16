@@ -14,8 +14,8 @@ used in this tutorial can be found [here](https://github.com/zhangce/dw/blob/mas
 
 **Pre-requisites...** To understand this tutorial, we assume that you have
 already familiar with the [Julia walkthorugh](/dw/julia/), and knows how to
-write a logistic regression model where both data and model are of `Cdouble`
-the type.
+write a logistic regression model where both data and model are of the
+type `Cdouble`.
 
 ### Defining Data Type
 
@@ -106,9 +106,9 @@ Which is consistent with the synthetic data that we just generated.
 
 ### Possible Pitfalls
 
-There are couple things you need to keep in mind!
+There are couple things you need to keep in mind:
 
-  - In DimmWitted 0.01, you must use `immutable`. For now, you
+  - In DimmWitted v0.01, you must use `immutable`. For now, you
   **cannot** use `type`, `tuple`, or other ways of constructing composite types. 
   - Because you are using `immutable`, you cannot write things like
 

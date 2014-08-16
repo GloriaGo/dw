@@ -10,8 +10,8 @@
     <title>Julia Support</title>
     <meta name="description" content="">
 
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="canonical" href="http://yourdomain.com/julia/">
+    <link rel="stylesheet" href="/dw//css/main.css">
+    <link rel="canonical" href="http://yourdomain.com/dw//julia/">
 </head>
 
 
@@ -21,7 +21,8 @@
 
   <div class="wrapper">
 
-    <a class="site-title" href="/">DimmWitted</a>
+    <a class="site-title" href="/dw//">DimmWitted <img style="vertical-align:middle;" src="https://travis-ci.org/zhangce/dw.svg?branch=master"/></a> 
+    <!-- <img style="vertical-align:text-bottom;" src="https://travis-ci.org/zhangce/dw.svg?branch=master"/>-->
 
     <nav class="site-nav">
       <a href="#" class="menu-icon">
@@ -39,17 +40,19 @@
           
         
           
-          <a class="page-link" href="/installation/">Installation</a>
+          <a class="page-link" href="/dw//installation/">Installation</a>
           
         
           
-          <a class="page-link" href="/julia/">Julia Support</a>
+          <a class="page-link" href="/dw//julia/">Julia Support</a>
           
         
           
         
           
-          <a class="page-link" href="/cpp/">C++ Support</a>
+        
+          
+          <a class="page-link" href="/dw//cpp/">C++ Support</a>
           
         
       </div>
@@ -82,19 +85,19 @@ in DimmWitted that is not covered by this tutorial, following is a list of pages
 that you might also be interested in.</p>
 
 <ol>
-  <li><a href="/julia_scd/">How to write other access methods in Julia for DimmWitted?</a> We will
+  <li><a href="/julia/scd/">How to write other access methods in Julia for DimmWitted?</a> We will
   show you an example of writing SCD with a column-to-row access method.</li>
-  <li><a href="/julia_segfault/">I am getting a Segmentation Fault! What should I do?</a> We will show you
+  <li><a href="/julia/segfault/">I am getting a Segmentation Fault! What should I do?</a> We will show you
   the set of assumptions that we made on your Julia functions, how to use
   a simple tool provided by DimmWitted to sanity check these assumptions, and how
   to use the debugging mode in DimmWitted to diagnose the problem.</li>
-  <li><a href="/julia_immutable/">Can I use non-primative data type, e.g., structure, in my data?</a> Sure, you
+  <li><a href="/julia/immutable/">Can I use non-primative data type, e.g., structure, in my data?</a> Sure, you
   can, but make sure they are immutable.</li>
-  <li><a href="/julia_global/">Can my gradient function accesses some global variables, e.g., stepsize?</a> Yes, but you need to see this tutorial.</li>
-  <li><a href="/julia_sparse/">Can I use sparse input matrix?</a> Yes, you can.</li>
-  <li><a href="/julia_misc/">Miscellaneous</a>. We will document some tips we found in our experience 
+  <li><a href="/julia/global/">Can my gradient function accesses some global variables, e.g., stepsize?</a> Yes, but you need to see this tutorial.</li>
+  <li><a href="/julia/sparse/">Can I use sparse input matrix?</a> Yes, you can.</li>
+  <li><a href="/julia/misc/">Miscellaneous</a>. We will document some tips we found in our experience 
   that we hope you also found useful.</li>
-  <li><a href="/julia_cheetsheet/">Cheat Sheet</a>. </li>
+  <li><a href="/julia/cheetsheet/">Cheat Sheet</a>. </li>
 </ol>
 
 <p><strong>Pre-requisites…</strong> To understand this tutorial, we assume that you already went through the
@@ -306,7 +309,7 @@ address of the DimmWitted object created in C++):</p>
 <pre><code>[JULIA-DW] Created DimmWitted Object: Ptr{Void} @0x00000001067957a0
 </code></pre>
 
-<p>For a complete list of these parameters, see <a href="/julia_cheatsheet/">Cheat Sheet</a>.</p>
+<p>For a complete list of these parameters, see <a href="/julia/cheatsheet/">Cheat Sheet</a>.</p>
 
 <p>After we create this <code>dw</code> object, we need to let it know
 about the two functions, i.e., <code>loss</code> and <code>grad</code>, that we
@@ -318,7 +321,7 @@ defined. We can do it by</p>
 <p>Each function call will register the function to DimmWitted
 and returns a handle that can be used later. Here, because
 both <code>loss</code> and <code>grad</code> are row-access functions, we
-use <code>register_row</code> here. (See <a href="/julia_cheatsheet/">Cheat Sheet</a>
+use <code>register_row</code> here. (See <a href="/julia/cheatsheet/">Cheat Sheet</a>
 if you want to register other types of functions.) If these
 run successfully, you should see in the output:</p>
 

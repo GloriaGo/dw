@@ -1,5 +1,5 @@
 # Site settings
-title: DimmWitted
+title: DimmWitted v0.01
 email: contact.hazy@gmail.com
 description: >
 baseurl: "/dw/" # the subpath of your site, e.g. /blog/

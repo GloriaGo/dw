@@ -3,6 +3,7 @@
   <div class="wrapper">
 
     <a class="site-title" href="{{ site.baseurl }}/">{{ site.title }}</a>
+    <img src="https://travis-ci.org/zhangce/dw.svg?branch=master"/>
 
     <nav class="site-nav">
       <a href="#" class="menu-icon">
@@ -17,7 +18,6 @@
         {% for page in site.pages %}
           {% if page.title %}
           <a class="page-link" href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a>
-	  <img src="https://travis-ci.org/zhangce/dw.svg?branch=master"/>
           {% endif %}
         {% endfor %}
       </div>

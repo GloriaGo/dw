@@ -31,7 +31,7 @@ function grad(row::Array{Cdouble,1}, model::Array{Cdouble,1})
 end
 {% endhighlight %}
 
-The reason is mentioned in [Julia's documentation](http://julia.readthedocs.org/en/latest/manual/calling-c-and-fortran-code/). Therefore, in DimmWitted,
+The reason is mentioned in [Julia's documentation](http://julia.readthedocs.org/en/latest/manual/calling-c-and-fortran-code/#accessing-global-variables). Therefore, in DimmWitted,
 we provide the following workaround.
 
 ### The Current Workaround

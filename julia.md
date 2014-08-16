@@ -25,7 +25,8 @@ that you might also be interested in.
   6. [Cheat Sheet & Miscellaneous](/dw/julia_cheetsheet/).
 
 **Pre-requisites...** To understand this tutorial, we assume that you already went through the
-[installation guideline](/installation/) and have all test passed.
+[installation guideline](/installation/) and have all test passed. We
+also assume that you installed [Julia 0.2.1](http://julialang.org/downloads/).
 
 ##Compile the DimmWitted Interface for Julia
 

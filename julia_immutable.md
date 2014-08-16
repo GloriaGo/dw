@@ -10,7 +10,7 @@ Yes, you can. In this tutorial, we will walkthrough an example
 of using non-primative type, both for data and model. The takeaway
 is that as long as your data type is _immutable_, you can use it in 
 DimmWitted in the same way as those primitive types. The code
-used in this tutorial can be found [here](https://github.com/zhangce/dw/blob/master/examples/julia_composite.jl)
+used in this tutorial can be found [here](https://github.com/zhangce/dw/blob/master/examples/julia_composite.jl).
 
 **Pre-requisites...** To understand this tutorial, we assume that you have
 already familiar with the [Julia walkthorugh](/dw/julia/), and knows how to

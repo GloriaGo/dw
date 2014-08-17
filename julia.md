@@ -233,7 +233,7 @@ address of the DimmWitted object created in C++):
 
     [JULIA-DW] Created DimmWitted Object: Ptr{Void} @0x00000001067957a0
 
-For a complete list of these parameters, see [Cheat Sheet](/julia/cheatsheet/).
+For a complete list of these parameters, see [Cheat Sheet](/dw/julia_cheetsheet/).
 
 After we create this `dw` object, we need to let it know
 about the two functions, i.e., `loss` and `grad`, that we
@@ -247,7 +247,7 @@ handle_grad = DimmWitted.register_row(dw, grad)
 Each function call will register the function to DimmWitted
 and returns a handle that can be used later. Here, because
 both `loss` and `grad` are row-access functions, we
-use `register_row` here. (See [Cheat Sheet](/julia/cheatsheet/)
+use `register_row` here. (See [Cheat Sheet](/dw/julia_cheetsheet/)
 if you want to register other types of functions.) If these
 run successfully, you should see in the output:
 

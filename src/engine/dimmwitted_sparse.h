@@ -126,13 +126,13 @@ class SparseDimmWitted{
 
 	B* const p_model;
 
-	std::map<unsigned int, DW_FUNCTION_ROW*> fs_row;
+	std::map<unsigned int, DW_FUNCTION_ROW> fs_row;
 
-	std::map<unsigned int, DW_FUNCTION_COL*> fs_col;
+	std::map<unsigned int, DW_FUNCTION_COL> fs_col;
 
-	std::map<unsigned int, DW_FUNCTION_C2R*> fs_c2r;
+	std::map<unsigned int, DW_FUNCTION_C2R> fs_c2r;
 
-	std::map<unsigned int, DW_FUNCTION_MAVG*> fs_avg;
+	std::map<unsigned int, DW_FUNCTION_MAVG> fs_avg;
 
 	unsigned int current_handle_id;
 
@@ -293,20 +293,21 @@ public:
 
 	void register_model_avg(unsigned int f_handle, 
 		void (* f) (B** const p_models, int nreplicas, int ireplica)){
-		fs_avg[f_handle] = &f;
+		fs_avg[f_handle] = f;
 	}
 
 	unsigned int register_row(
 		double (* f) (const SparseVector<A>* const p_row, B* const p_model)
 	){	
-		fs_row[current_handle_id] = &f;
+		//std::cout << "GIVEN " << ((void*) f) << std::endl; 
+		fs_row[current_handle_id] = f;
 		return current_handle_id ++;
 	}
 
 	unsigned int register_col(
 		double (* f) (const SparseVector<A>* const p_col, int n_row, B* const p_model)
 	){
-		fs_col[current_handle_id] = &f;
+		fs_col[current_handle_id] = f;
 		return current_handle_id ++;
 	}
 
@@ -315,7 +316,7 @@ public:
 					const SparseVector<A>* const p_rows, int n_rows,
 					B* const p_model)
 	){
-		fs_c2r[current_handle_id] = &f;
+		fs_c2r[current_handle_id] = f;
 		return current_handle_id ++;
 	}
 
@@ -328,40 +329,41 @@ public:
 
 		if(access_mode == DW_ACCESS_ROW){
 
-			const DW_FUNCTION_ROW * const f = fs_row.find(f_handle)->second;
+			const DW_FUNCTION_ROW  f = fs_row.find(f_handle)->second;
 			DW_FUNCTION_MAVG f_avg = NULL;
 			if(fs_avg.find(f_handle) != fs_avg.end()){
-				f_avg = *fs_avg.find(f_handle)->second;	
+				f_avg = fs_avg.find(f_handle)->second;	
 			}
-			task_row.f = *f;
+			task_row.f = f;
+			//std::cout << "RECOVER " << ((void*) task_row.f) << std::endl;
 			rs = dw_row_runner.exec(row_ids, n_rows, sparse_map_row<A,B>, f_avg, NULL);
 
 		}else if(access_mode == DW_ACCESS_COL){
-			const DW_FUNCTION_COL * const f = fs_col.find(f_handle)->second;
-			DW_FUNCTION_MAVG  f_avg = NULL;
+			const DW_FUNCTION_COL f = fs_col.find(f_handle)->second;
+			DW_FUNCTION_MAVG f_avg = NULL;
 			if(fs_avg.find(f_handle) != fs_avg.end()){
-				f_avg = *fs_avg.find(f_handle)->second;	
+				f_avg = fs_avg.find(f_handle)->second;	
 			}
-			task_col.f = *f;
+			task_col.f = f;
 			rs = dw_col_runner.exec(col_ids, n_cols, sparse_map_col<A,B>, f_avg, NULL);
 
 		}else if(access_mode == DW_ACCESS_C2R){
 			if(fs_row.find(f_handle) != fs_row.end()){
-				const DW_FUNCTION_ROW * const f = fs_row.find(f_handle)->second;
+				const DW_FUNCTION_ROW  f = fs_row.find(f_handle)->second;
 				DW_FUNCTION_MAVG  f_avg = NULL;
 				if(fs_avg.find(f_handle) != fs_avg.end()){
-					f_avg = *fs_avg.find(f_handle)->second;	
+					f_avg = fs_avg.find(f_handle)->second;	
 				}
-				task_row.f = *f;
+				task_row.f = f;
 				rs = dw_row_runner.exec(row_ids, n_rows, sparse_map_row<A,B>, f_avg, NULL);
 
 			}else{
-				const DW_FUNCTION_C2R * const f = fs_c2r.find(f_handle)->second;
-				DW_FUNCTION_MAVG  f_avg = NULL;
+				const DW_FUNCTION_C2R f = fs_c2r.find(f_handle)->second;
+				DW_FUNCTION_MAVG f_avg = NULL;
 				if(fs_avg.find(f_handle) != fs_avg.end()){
-					f_avg = *fs_avg.find(f_handle)->second;	
+					f_avg = fs_avg.find(f_handle)->second;	
 				}
-				task_c2r.f = *f;
+				task_c2r.f = f;
 				rs = dw_c2r_runner.exec(col_ids, n_cols, sparse_map_c2r<A,B>, f_avg, NULL);
 
 			}

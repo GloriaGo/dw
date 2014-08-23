@@ -270,8 +270,7 @@ public:
             for(int i=0; i<num_inputs; i++){
         		file.read((char *)&weight_id, 8);
         		weight_id = bswap_64(weight_id);
-                // show(weight_id);
-        		he.weight_ids.push_back(weight_id);
+           		he.weight_ids.push_back(weight_id);
         	}
 
             he.num_inputs=num_inputs;

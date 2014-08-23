@@ -1,36 +1,20 @@
-UNAME := $(shell uname)
-
-### LINUX ###
-ifeq ($(UNAME), Linux)
-
-ifndef CXX
-CXX=g++
-endif
-
-CPP_FLAG = -O3 -std=c++11 -lrt -I./lib/libunwind-1.1/include -L./lib/numactl-2.0.9 -I./lib/numactl-2.0.9
-CPP_INCLUDE = -I./src
-CPP_JULIA_LIBRARY = -fPIC -lnuma -shared src/helper/julia_helper.cpp -o libdw_julia.so
-
-endif
-
-### MAC ###
-ifeq ($(UNAME), Darwin)
 
 ifndef CXX
 CXX=clang++
 endif
 
 CPP_FLAG = -O3 -std=c++11 -stdlib=libc++ 
+CNN_INCLUDE = -I. -I/Users/amir/Desktop/Spring2014/deepdive/lib/dw_mac/lib/tclap/include -I/lfs/local/0/amir/deepdive/lib/dw_mac/lib/tclap/include
+CNN_FLAG = -O3 -std=c++0x
 CPP_INCLUDE = -I./src
-CPP_JULIA_LIBRARY = -dynamiclib src/helper/julia_helper.cpp -o libdw_julia.dylib
 
-endif
+cnn: clean
+	$(CXX) $(CNN_FLAG) $(CPP_INCLUDE) $(CNN_INCLUDE) src/main.cpp -o cnn
 
 exp:
 	$(CXX) $(CPP_FLAG) $(CPP_INCLUDE) examples/logistic_regression_dense_sgd.cpp -o example
 
-dep:
-	cd ./lib/numactl-2.0.9; CXX=$(CXX) make; cd ../..
+
 
 test_dep:
 
@@ -49,5 +33,8 @@ runtest:
 julia:
 
 	$(CXX) $(CPP_FLAG) $(CPP_INCLUDE) -I./src -I./lib/julia/src/ -I./lib/libsupport/ -I./lib/libuv/include/ \
-			$(CPP_JULIA_LIBRARY)
+			-dynamiclib src/helper/julia_helper.cpp -o libdw_julia.dylib
 
+clean: 
+	-rm cnn 
+	-rm example

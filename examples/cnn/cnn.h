@@ -19,6 +19,8 @@ limitations under the License.
 
 #include "dimmwitted.h"
 #include "neural_obj.h"
+#include <random>
+
 
 
 class cnn_layer_model{
@@ -52,6 +54,7 @@ double back_gradient(const SparseVector<double>* const ex, cnn_layer_model* cons
 
     // Following is least squares
     double grad =2*(current_value-init_value);
+    // show(grad);
 
     // double exp_one_minus_2y = 
     //   exp((1.0 - 2*init_value)*current_value);
@@ -62,10 +65,9 @@ double back_gradient(const SparseVector<double>* const ex, cnn_layer_model* cons
     p_model->current_grads[start_ind+offset] = grad;
     // p_model->current_grads[start_ind+offset] = exp_one_minus_2y/(1.0+exp_one_minus_2y)*
     //                             (1.0 - 2*init_value);
-
-
-    show(p_model->current_grads[start_ind+offset]);
-
+    // show(start_ind);
+    // show(offset);
+    // show(p_model->current_grads[start_ind+offset]);
   }else if(hedge->factor_function == 1000){ // Conv
     double sum = 0.0;
     for(int i=0; i<ex->n-2; i++){
@@ -79,23 +81,32 @@ double back_gradient(const SparseVector<double>* const ex, cnn_layer_model* cons
         for(int c=0; c<weight_i->num_cols; c++){
           long offset=(in_x+r)*p_model->network->variables[in_mat_id].num_cols+(in_y+c);
           sum += weight_i->values[r][c] * p_model->values[start_ind+offset];
+          // std::cout << "~~~~" << weight_i->values[r][c] << "     *      " << p_model->values[start_ind+offset] << std::endl;
         }
     }
+    // show(sum);
 
     cnn_layer_model* n_model=p_model->next;
     long out_id=hedge->out_mat_id;
     long out_x=hedge->out_center_x;
     long out_y=hedge->out_center_y;
-
-    long start_ind=n_model->network->variables[out_id].start_ind; 
-
+    // show(out_id);
+    long start_ind=n_model->network->variables[out_id].start_ind;
     long offset=out_x*n_model->network->variables[out_id].num_cols+out_y;
 
     double grad1 = (1.0/(1.0+exp(-sum))) *  (1.0-(1.0/(1.0+exp(-sum))));
+    // double grad1 = 2*sum;
+    // show(grad1);
     grad1 = grad1 * n_model->current_grads[start_ind+offset];
+    // show(start_ind+offset);
+    // show(n_model->current_grads[start_ind+offset]);
+    // show(grad1);
+    //       show(p_model);
+    //       show(n_model);
 
-    for(int i=0; i<p_model->size; i++)
-      p_model->current_grads[i]=0;
+
+    // for(int i=0; i<p_model->size; i++)
+    //   p_model->current_grads[i]=0;
 
     for(int i=0; i<ex->n-2; i++){
       const weight * weight_i = &p_model->weights[hedge->weight_ids[i]];
@@ -103,15 +114,17 @@ double back_gradient(const SparseVector<double>* const ex, cnn_layer_model* cons
       long in_x=hedge->in_center_xs[i];
       long in_y=hedge->in_center_ys[i];
       long start_ind=p_model->network->variables[in_mat_id].start_ind;
-
       for(int r=0; r<weight_i->num_rows; r++)
         for(int c=0; c<weight_i->num_cols; c++){
           long offset=(in_x+r)*p_model->network->variables[in_mat_id].num_cols+(in_y+c);
           p_model->current_grads[start_ind+offset] += grad1 * weight_i->values[r][c];
-          weight_i->values[r][c] = weight_i->values[r][c] - 0.01 * grad1*p_model->values[start_ind+offset];
+          weight_i->values[r][c] = weight_i->values[r][c] - 0.001 * grad1*p_model->values[start_ind+offset];
           // if(hedge->layer==0)
-            // std::cout << "    ~~  " << "GRAD: " << grad1 << " values : " << p_model->values[start_ind+offset] 
-                      // << " new_weight_delta: " <<  0.01 * grad1*p_model->values[start_ind+offset] << std::endl;
+            // std::cout << "#####" << p_model->values[start_ind+offset] << std::endl;
+            // std::cout << "    ~~  " << "GRAD: " << p_model->current_grads[start_ind+offset] << " values : " << p_model->values[start_ind+offset] 
+            //           << " new_weight_delta: " <<  0.01 * grad1*p_model->values[start_ind+offset]
+            //           << " start_ind+offset: " << start_ind+offset
+            //           << " grad_w: " << grad1*p_model->values[start_ind+offset]<< std::endl;
         }
       
       //std::cout << "    #   " << grad1 << "    " << current_values[neuron_id] << std::endl;
@@ -134,10 +147,12 @@ double forward_propogate(const SparseVector<double>* const ex, cnn_layer_model* 
   long hedge_ind=ex->p[0];
   hyper_edge* hedge=&p_model->network->hedges[hedge_ind];
   if(hedge->factor_function == 1010){ // Least Squares
-
+     std::cout << "FUNCTION ID " << hedge->factor_function << " NOT DEFINED for forward_propogate!" << std::endl;
+    assert(false);
   }else if(hedge->factor_function == 1000){ // Conv
-    double sum = 0.0;
     // std::cout << ex->n-2 << " == " << hedge->in_mat_ids.size() << std::endl;
+    double sum = 0.0;
+
     for(int i=0; i<ex->n-2; i++){
       const weight * weight_i = &p_model->weights[hedge->weight_ids[i]];
       long in_mat_id = hedge->in_mat_ids[i];
@@ -148,21 +163,12 @@ double forward_propogate(const SparseVector<double>* const ex, cnn_layer_model* 
         for(int c=0; c<weight_i->num_cols; c++){
           long offset=(in_x+r)*p_model->network->variables[in_mat_id].num_cols+(in_y+c);
           sum += weight_i->values[r][c] * p_model->values[start_ind+offset];
-
-          // if(hedge->layer==0){
-          //   show(weight_i->num_rows);
-          //   show(weight_i->num_cols);
-          //   show(start_ind);
-          //   show(offset);
-          //   show(in_x);
-          //   show(in_y);
-          //   show(in_mat_id);
-          //   show(p_model->values[start_ind+offset]);
+          // if(hedge->layer==1){
+            // show(in_mat_id);
+            // show(p_model->values[start_ind+offset]);
           // }
-
-
         }
-
+      // show(sum);
     }
 
     // if(hedge->layer==5){
@@ -179,6 +185,8 @@ double forward_propogate(const SparseVector<double>* const ex, cnn_layer_model* 
     long start_ind=n_model->network->variables[out_id].start_ind;
     long offset=out_x*n_model->network->variables[out_id].num_cols+out_y;
     n_model->values[start_ind+offset] = (1.0)/(1.0 + exp(-sum));
+    // n_model->values[start_ind+offset] = sum*sum;
+
 
    // if(hedge->layer==5){
    //  cout << out_id << endl;
@@ -225,7 +233,7 @@ double error(const SparseVector<double>* const ex, cnn_layer_model* const p_mode
 
   long hedge_ind=ex->p[0];
   hyper_edge* hedge=&(p_model->network->hedges[hedge_ind]);
-  show(hedge->factor_function);
+  // show(hedge->factor_function);
 
   if(hedge->factor_function == 1010){ // Logistic Regression // Least Squares
     long out_id=hedge->out_mat_id;
@@ -261,7 +269,9 @@ double error(const SparseVector<double>* const ex, cnn_layer_model* const p_mode
 
 template<ModelReplType MODELREPL, DataReplType DATAREPL>
 double cnn_sparse(neural_network &network){
-  int num_layer=3;
+  int num_layer=7;
+  normal_distribution<double> distribution(0.0,0.01);
+  default_random_engine generator;
   
   long * nexp=new long[num_layer];
   long * nfeat=new long[num_layer];
@@ -392,7 +402,13 @@ double cnn_sparse(neural_network &network){
         models[l].weights[i].values[j]=new double [network.weights[i].num_cols];
         for(int k=0; k<network.weights[i].num_cols; k++){
           // models[l].weights[i].values[j][k]=network.weights[i].initial_value;
-          models[l].weights[i].values[j][k]=-0.01;
+          
+          double number = distribution(generator);
+          do
+            number = distribution(generator);
+          while ((number<-5)&&(number>5));
+          models[l].weights[i].values[j][k]=number;
+          models[l].weights[i].values[j][k]=0.1;
         }
       }
     }
@@ -445,22 +461,64 @@ double cnn_sparse(neural_network &network){
   }
   f_handle_error = dw_l[num_layer-1]->register_row(error);
   double loss=0;
+  double last_loss=-1;
   for(int i_epoch=0;i_epoch<1000;i_epoch++){
     cout << "EPOCH num : " << i_epoch << endl;
+
+
     for(int l=0; l<num_layer-1; l++){
       cout << "Forward propogate layer : " << l << endl;
       dw_l[l]->exec(f_handle_f_prop[l]);
+      // cout<< "Values: " << endl;
+      // int size;
+      // for(int j=0; j<models[l].network->num_vars; j++)
+      //   if(models[l].network->variables[j].layer==l)
+      //     size=models[l].network->variables[j].num_rows*models[l].network->variables[j].num_cols;
+      // for(int i=0; i<models[l].size/size; i++){
+      //   for(int j=0; j<size; j++)
+      //     if(i==0 || i==models[l].size/size-1)
+      //       cout << models[l].values[i*size+j] << " ";
+      //   if(i==0 || i==models[l].size/size-1)
+      //     cout << endl;
+      // }
     }
+    // cout<< "Values: " << endl;
+    // for(int i=0; i<models[num_layer-1].size; i++)
+    //   cout << models[num_layer-1].values[i] << endl;
+    // cout << endl;
 
     // loss=dw_l[num_layer-1]->exec(f_handle_error)/nfeat[num_layer-1];
     loss=dw_l[num_layer-1]->exec(f_handle_error);
-
     show(loss);
 
-    for(int l=0; l<num_layer; l++){
-      cout << "Backward propogate layer : " << l << endl;
+      
+
+    for(int l=num_layer-1; l>=0; l--){
+      cout << "************ Backward propogate layer : " << l << "************" << endl;
+      for(int i=0; i<models[l].size; i++)
+        models[l].current_grads[i]=0;
       dw_l[l]->exec(f_handle_b_prop[l]);
+
+      // int size;
+      // for(int j=0; j<models[l].network->num_vars; j++)
+      //   if(models[l].network->variables[j].layer==l)
+      //     size=models[l].network->variables[j].num_rows*models[l].network->variables[j].num_cols;
+      // for(int i=0; i<models[l].size/size; i++){
+      //   for(int j=0; j<size; j++)
+      //     if(i==0 || i==models[l].size/size-1)
+      //       cout << models[l].current_grads[i*size+j] << " ";
+      //   if(i==0 || i==models[l].size/size-1)
+      //     cout << endl;
+      // }
     }
+    // cout<< "Values: " << endl;
+    // for(int i=0; i<models[num_layer-1].size; i++)
+    //   cout << models[num_layer-1].current_grads[i] << endl;
+    // cout << endl;
+
+
+
+
     for(int l=0; l<num_layer-1; l++){
       cout << "Layer " << l << " weights:" << endl;
       for(int i=0; i<models[l].network->num_hedges; i++)
@@ -469,12 +527,16 @@ double cnn_sparse(neural_network &network){
           for(int j=0; j<weight_i->num_rows; j++){
             for(int k=0; k<weight_i->num_cols; k++)
               cout << weight_i->values[j][k] << " ";
-            cout<< endl;
+           cout<< endl;
           }
           break;
         }
       cout << endl;
     }
+    // if((loss-last_loss)*(loss-last_loss)<1E-16)
+    //   break;
+    last_loss=loss;
+
   }
   return 0.0;
 }

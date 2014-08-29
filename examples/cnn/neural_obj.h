@@ -31,6 +31,7 @@ public:
 	long num_rows;
 	long num_cols;
 	double ** values;
+    double bias;
 };
 
 class variable{

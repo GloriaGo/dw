@@ -20,11 +20,12 @@
 #include "examples/cnn/cnn.h"
 #include <assert.h>
 #include <iostream>
+#include "dimmwitted.h"
 //#include "common.h"
 #include <unistd.h>
-
 #include "io/cmd_parser.h"
 #include "io/meta.h"
+using namespace std;
 
 
 /**
@@ -119,6 +120,7 @@ void cnn(dd::CmdParser & cmd_parser){
 	network.load(cmd_parser,meta.num_variables,meta.num_weights,meta.num_edges);
 
 	double rs = cnn_sparse<DW_MODELREPL_SINGLETHREAD_DEBUG, DW_DATAREPL_SHARDING>(network);
+
 }
 
 int main(int argv, char** argc){

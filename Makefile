@@ -3,17 +3,21 @@ ifndef CXX
 CXX=clang++
 endif
 
-CPP_FLAG = -O3 -std=c++11 -stdlib=libc++ 
+CPP_FLAG = -O3 -std=c++11 -stdlib=libc++
 CNN_INCLUDE = -I. -I/Users/amir/Desktop/Spring2014/deepdive/lib/dw_mac/lib/tclap/include -I/lfs/local/0/amir/deepdive/lib/dw_mac/lib/tclap/include
 CNN_FLAG = -O3 -std=c++0x
 CPP_INCLUDE = -I./src
+NUMA_FLAG= -I./lib/libunwind-1.1/include -L./lib/numactl-2.0.9 -I./lib/numactl-2.0.9 
+CPP_LAST = -lnuma -lrt
 
 cnn: clean
-	$(CXX) $(CNN_FLAG) $(CPP_INCLUDE) $(CNN_INCLUDE) src/main.cpp -o cnn
+	$(CXX) $(CNN_FLAG) $(CPP_INCLUDE) $(CNN_INCLUDE) $(NUMA_FLAG) src/main.cpp -o cnn $(CPP_LAST)
+
+local: clean
+	$(CXX) $(CNN_FLAG) $(CPP_INCLUDE) $(CNN_INCLUDE) $(NUMA_FLAG) src/main.cpp -o cnn
 
 exp:
 	$(CXX) $(CPP_FLAG) $(CPP_INCLUDE) examples/logistic_regression_dense_sgd.cpp -o example
-
 
 
 test_dep:

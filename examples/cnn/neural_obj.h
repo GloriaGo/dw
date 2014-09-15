@@ -20,7 +20,7 @@ using namespace std;
 #define bswap_16(x) \
      ((unsigned short int) ((((x) >> 8) & 0xff) | (((x) & 0xff) << 8)))
 
-#define show(x)     std::cout.precision(15); std::cout << #x << " : " << x  << std::endl
+#define show(x)     std::cout.precision(11); std::cout << #x << " : " << x  << std::endl
 
 
 class weight{
@@ -44,6 +44,7 @@ public:
 	long layer;
 	long start_ind;
     long var_layer_ind;
+    long fid;
 };
 
 class hyper_edge{
@@ -89,11 +90,10 @@ public:
         std::ifstream file;
         file.open(filename.c_str(), std::ios::in | std::ios::binary);
         long count = 0;
-        long a = 0;
 
         long mid;
-        	long num_rows;
-        	long num_cols;
+    	long num_rows;
+    	long num_cols;
 
         while (file.good()) {
         	variable v;
@@ -119,7 +119,6 @@ public:
                     double initval = *(double *)&initial_value;
             		v.init_value.push_back(initval);
             	}
-            bool temp;
             long layer;
             if (!file.read((char *)&layer, 8)) break;
             layer = bswap_64(layer);

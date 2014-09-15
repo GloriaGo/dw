@@ -118,8 +118,8 @@ void cnn(dd::CmdParser & cmd_parser){
 
 	neural_network network;
 	network.load(cmd_parser,meta.num_variables,meta.num_weights,meta.num_edges);
-
-	double rs = cnn_sparse<DW_MODELREPL_SINGLETHREAD_DEBUG, DW_DATAREPL_SHARDING>(network);
+  	double rs = cnn_sparse<DW_MODELREPL_PERMACHINE, DW_DATAREPL_SHARDING>(network);
+	// double rs = cnn_sparse<DW_MODELREPL_SINGLETHREAD_DEBUG, DW_DATAREPL_SHARDING>(network);
 
 }
 

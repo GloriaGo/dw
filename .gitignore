@@ -21,3 +21,20 @@
 *.exe
 *.out
 *.app
+
+# DATA FILES
+gpdata/
+gpdata_cnn_1/
+out
+temp_out/
+temp_out_10_2_ave/
+temp_out_10_2_max/
+temp_out_10_ave/
+temp_out_10_max/
+temp_out_cnn_1/
+temp_out_cnn_10/
+temp_out_softmax_1/
+temp_out_softmax_10/
+temp_out_softmax_2/
+temp_out_softmax_2_10/
+temp_out_softmax_test1/

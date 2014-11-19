@@ -20,18 +20,18 @@ using namespace std;
 #define bswap_16(x) \
      ((unsigned short int) ((((x) >> 8) & 0xff) | (((x) & 0xff) << 8)))
 
-#define show(x) std::cout << #x << " : " << x  << std::endl
+#define show(x)     std::cout.precision(15); std::cout << #x << " : " << x  << std::endl
 
 
 class weight{
 public:
 	long weight_id;
 	bool is_fixed;
-	double initial_value;
+	long double initial_value;
 	long num_rows;
 	long num_cols;
-	double ** values;
-    double bias;
+	long double ** values;
+    long double bias;
 };
 
 class variable{
@@ -40,7 +40,7 @@ public:
 	long num_rows;
 	long num_cols;
 	vector<bool> is_evid;
-	vector<double> init_value;
+	vector<long double> init_value;
 	long layer;
 	long start_ind;
     long var_layer_ind;
@@ -88,8 +88,8 @@ public:
 
         std::ifstream file;
         file.open(filename.c_str(), std::ios::in | std::ios::binary);
-        long long count = 0;
-        long long a = 0;
+        long count = 0;
+        long a = 0;
 
         long mid;
         	long num_rows;
@@ -152,7 +152,7 @@ public:
         file.open(filename.c_str(), std::ios::in | std::ios::binary);
         long weight_id;
         bool is_fixed;
-        double initval;
+        long double initval;
         uint64_t initial_value;
         long num_rows;
         long num_cols;
@@ -209,7 +209,7 @@ public:
 
         std::ifstream file;
         file.open(filename.c_str(), std::ios::in | std::ios::binary);
-        long long count = 0;
+        long count = 0;
 
         long num_inputs;
         vector<long> in_mat_ids;

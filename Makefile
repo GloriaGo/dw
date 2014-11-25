@@ -5,13 +5,15 @@ endif
 
 CPP_FLAG = -O3 -std=c++11 -stdlib=libc++
 CNN_INCLUDE = -I. -I/Users/amir/Desktop/Spring2014/deepdive/lib/dw_mac/lib/tclap/include -I/lfs/local/0/amir/deepdive/lib/dw_mac/lib/tclap/include
-CNN_FLAG = -O3 -std=c++0x
+PMU_INCLUDE = -I/lfs/local/0/amir/benchmark/pmu/include
+CNN_FLAG = -O3 -msse3 -std=c++0x -g
 CPP_INCLUDE = -I./src
 NUMA_FLAG= -I./lib/libunwind-1.1/include -L./lib/numactl-2.0.9 -I./lib/numactl-2.0.9 
 CPP_LAST = -lnuma -lrt
 
 cnn: clean
-	$(CXX) $(CNN_FLAG) $(CPP_INCLUDE) $(CNN_INCLUDE) $(NUMA_FLAG) src/main.cpp -o cnn $(CPP_LAST)
+	$(CXX) $(CNN_FLAG) $(PMU_INCLUDE) $(CPP_INCLUDE) $(CNN_INCLUDE) $(NUMA_FLAG) src/main.cpp -o cnn $(CPP_LAST)
+
 
 local: clean
 	$(CXX) $(CNN_FLAG) $(CPP_INCLUDE) $(CNN_INCLUDE) $(NUMA_FLAG) src/main.cpp -o cnn

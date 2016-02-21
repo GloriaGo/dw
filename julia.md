@@ -33,7 +33,7 @@ that you might also be interested in.
 **Pre-requisites...** To understand this tutorial, we assume that you already went through the
 [installation guideline](/installation/) and have all test passed.
 
-##Compile the DimmWitted Interface for Julia
+## Compile the DimmWitted Interface for Julia
 
 Recall from our [installation guideline](/installation/) that you already checked out
 the code of DimmWitted by
@@ -44,12 +44,12 @@ and lets still assume DW_HOME to be the name of the folder that contains the cod
 the file `Makefile` sits). Compiling the DimmWitted Interface for Julia
 contains two steps: (1) check out dependencies, and (2) compile DimmWitted Interface.
 
-###Dependencies
+### Dependencies
 
 We assume that you already have Julia installed at `$JULIADIR`. We assume that the header file `julia.h`
 is at `$JULIADIR/include/julia` and the library `libjulia` is at `$JULIADIR/lib/julia`.
 
-###Compile DimmWitted Interface
+### Compile DimmWitted Interface
 
 Now we can compile the DimmWitted interface:
 
@@ -61,7 +61,7 @@ do not need the `JULIADIR=$JULIADIR` part.
 
 You should see a new file with the name `libdw_julia.dylib` in the DW_HOME folder.
 
-###Validation
+### Validation
 
 Let's do some simple sanity check to make sure compilation is OK. Open your julia
 shell, and first run (Remeber to replace [DW_HOME] with the real path)
@@ -81,7 +81,7 @@ You should see
 
     Hi! -- by DimmWitted
 
-##Writing a simple Julia application
+## Writing a simple Julia application
 
 Let's start writing a logistic regression application in Julia.
 The code can be found [here](https://github.com/zhangce/dw/blob/master/examples/julia_lr.jl)
@@ -98,7 +98,7 @@ import DimmWitted
 DimmWitted.set_libpath("[DW_HOME]/libdw_julia")
 ```
 
-####Prepare the Data
+#### Prepare the Data
 
 We will generate a synthetic data set to play with. The following code
 creates a synthetic classifcation problem with 100000 examples, each of
@@ -128,7 +128,7 @@ and the last column is the prediction (80% are 1, 20% are 0).
 We also created a one-dimensional array `model`, each element
 of which corresponds to the weight for each feature.
 
-####Define Loss Function and Gradient Function
+#### Define Loss Function and Gradient Function
 
 After we specify the data, we can write Julia functions
 to define how to calculate the loss and gradient. Note that,
@@ -197,7 +197,7 @@ end
 We can see that this `grad` function is similar to `loss`, with the
 difference that in Line 10-12, we update the model.
 
-####Run!
+#### Run!
 
 We will now create a DimmWitted object to training our logistic
 regressor defined by the function `grad` and `loss` on the data
@@ -290,7 +290,7 @@ and get the final loss
 
     LOSS: 0.5029576555246331
 
-####Use All the Cores!
+#### Use All the Cores!
 
 Now we have built a simple logsitic regression model,
 but we can make it better because currently it only uses

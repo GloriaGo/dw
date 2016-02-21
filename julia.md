@@ -16,24 +16,29 @@ compile the DimmWitted support for Julia using stochastic gradient descent
 in DimmWitted that is not covered by this tutorial, following is a list of pages 
 that you might also be interested in.
 
-  1. [I am getting a Segmentation Fault, or an ERROR saying my function ''protentially is not thread-safe''! What should I do?](/dw/julia_segfault/) We will show you the set of assumptions that we made on your Julia functions, how to use a simple tool provided by DimmWitted to sanity check these assumptions, and how
+  1. [How to write other access methods in Julia for DimmWitted?](/julia_scd/) We will
+  show you an example of writing SCD with a column-to-row access method.
+  2. [I am getting a Segmentation Fault! What should I do?](/julia_segfault/) We will show you
+  the set of assumptions that we made on your Julia functions, how to use
+  a simple tool provided by DimmWitted to sanity check these assumptions, and how
   to use the debugging mode in DimmWitted to diagnose the problem.
-  2. [Can I use non-primative data type, e.g., structure, in my data?](/dw/julia_immutable/) Sure, you can, but make sure they are immutable.
-  3. [Can my gradient function accesses some global variables, e.g., stepsize?](/dw/julia_global/) Yes, but you need to see this tutorial.
-  4. [Can I use sparse input matrix?](/dw/julia_sparse/) Yes, you can.
-  5. [How to write other access methods in Julia for DimmWitted?](/dw/julia_scd/) We will show you an example of writing SCD with a column-to-row access method.
-  6. [Cheat Sheet & Miscellaneous](/dw/julia_cheetsheet/).
+  3. [Can I use non-primative data type, e.g., structure, in my data?](/julia_immutable/) Sure, you
+  can, but make sure they are immutable.
+  4. [Can my gradient function accesses some global variables, e.g., stepsize?](/julia_global/) Yes, but you need to see this tutorial.
+  5. [Can I use sparse input matrix?](/julia_sparse/) Yes, you can.
+  6. [Miscellaneous](/julia_misc/). We will document some tips we found in our experience 
+  that we hope you also found useful.
+  7. [Cheat Sheet](/julia_cheetsheet/). 
 
 **Pre-requisites...** To understand this tutorial, we assume that you already went through the
-[installation guideline](/dw/installation/) and have all test passed. We
-also assume that you installed [Julia 0.2.1](http://julialang.org/downloads/).
+[installation guideline](/installation/) and have all test passed.
 
 ##Compile the DimmWitted Interface for Julia
 
 Recall from our [installation guideline](/installation/) that you already checked out
 the code of DimmWitted by
 
-    git clone https://github.com/zhangce/dw
+    git clone https://github.com/HazyResearch/dimmwitted
 
 and lets still assume DW_HOME to be the name of the folder that contains the code (where
 the file `Makefile` sits). Compiling the DimmWitted Interface for Julia
@@ -41,39 +46,31 @@ contains two steps: (1) check out dependencies, and (2) compile DimmWitted Inter
 
 ###Dependencies
 
-We first need to checkout three dependencies, including
-
-  1. [Julia (source code)](https://github.com/JuliaLang/julia.git)
-  2. [libsupport](https://github.com/JeffBezanson/libsupport)
-  3. [libuv](https://github.com/joyent/libuv)
-
-We first go to the lib folder under DW_HOME
-
-    cd DW_HOME/lib
-    git clone https://github.com/JuliaLang/julia.git
-    git clone https://github.com/JeffBezanson/libsupport
-    git clone https://github.com/joyent/libuv
+We assume that you already have Julia installed at `$JULIADIR`. We assume that the header file `julia.h`
+is at `$JULIADIR/include/julia` and the library `libjulia` is at `$JULIADIR/lib/julia`.
 
 ###Compile DimmWitted Interface
 
 Now we can compile the DimmWitted interface:
 
     cd DW_HOME
-    make julia
+    JULIADIR=$JULIADIR make julia
+
+If you are using Homebrew on Mac, which will install Julia at `/usr/local/Cellar/julia/0.4.3`, you
+do not need the `JULIADIR=$JULIADIR` part.
 
 You should see a new file with the name `libdw_julia.dylib` in the DW_HOME folder.
-
 
 ###Validation
 
 Let's do some simple sanity check to make sure compilation is OK. Open your julia
 shell, and first run (Remeber to replace [DW_HOME] with the real path)
     
-{% highlight julia linenos%}
+```julia
 push!(LOAD_PATH, "[DW_HOME]/julialib/")
 import DimmWitted
 DimmWitted.set_libpath("[DW_HOME]/libdw_julia")
-{% endhighlight %}
+```
 
 These three lines set up the DimmWitted module that you can use to communicate
 with DimmWitted. To validate whether it works or not, type in
@@ -95,11 +92,11 @@ let's say with the name `julia_lr.jl`. The first
 three lines of the code is the same as the validation
 step
 
-{% highlight julia linenos%}
+```julia
 push!(LOAD_PATH, "[DW_HOME]/julialib/")
 import DimmWitted
 DimmWitted.set_libpath("[DW_HOME]/libdw_julia")
-{% endhighlight %}
+```
 
 ####Prepare the Data
 
@@ -107,7 +104,7 @@ We will generate a synthetic data set to play with. The following code
 creates a synthetic classifcation problem with 100000 examples, each of
 which has 10 features and 1 boolean prediction in 0/1.
 
-{% highlight julia linenos%}
+```julia
 nexp = 100000
 nfeat = 100
 examples = Array(Cdouble, nexp, nfeat+1)
@@ -122,7 +119,7 @@ for row = 1:nexp
 	end
 end
 model = Cdouble[0 for i = 1:nfeat]
-{% endhighlight %}
+```
 
 We see that this piece of code creates a two-dimensional
 array `examples`, each row of which is an example, and
@@ -152,12 +149,12 @@ function signature comes from?**
 >> When you define the data structure `examples` and `models`,
 they are of the type Array{Cdouble,2} and Array{Cdouble,1}. DimmWitted
 will get their types automatically. You can also use other
-primitive types (e.g., Cint) or composite types ([See here](/dw/julia_immutable/))--
+primitive types (e.g., Cint) or composite types ([See here](julia_immutable))--
 just to make sure you change the signature of the function accordingly.
 
 Let's now define the loss function with this signature.
 
-{% highlight julia linenos%}
+```julia
 function loss(row::Array{Cdouble,1}, model::Array{Cdouble,1})
 	const label = row[length(row)]
 	const nfeat = length(model)
@@ -167,7 +164,7 @@ function loss(row::Array{Cdouble,1}, model::Array{Cdouble,1})
 	end
 	return (-label * d + log(exp(d) + 1.0))
 end
-{% endhighlight %}
+```
 
 We can see that this function contains three components:
 
@@ -180,7 +177,7 @@ We can see that this function contains three components:
 
 Similary, we can write the gradient function
 
-{% highlight julia linenos%}
+```julia
 function grad(row::Array{Cdouble,1}, model::Array{Cdouble,1})
 	const label = row[length(row)]
 	const nfeat = length(model)
@@ -195,7 +192,7 @@ function grad(row::Array{Cdouble,1}, model::Array{Cdouble,1})
   	end
 	return 1.0
 end
-{% endhighlight %}
+```
 
 We can see that this `grad` function is similar to `loss`, with the
 difference that in Line 10-12, we update the model.
@@ -207,12 +204,12 @@ regressor defined by the function `grad` and `loss` on the data
 `examples` and `models`. We first create an object with
 the specification of the data and how we want to access the data:
 
-{% highlight julia linenos%}
+```julia
 dw = DimmWitted.open(examples, model, 
                 DimmWitted.MR_SINGLETHREAD_DEBUG,    
                 DimmWitted.DR_SHARDING,      
                 DimmWitted.AC_ROW)
-{% endhighlight %}
+```
 
 This command creates a DimmWitted object `dw` by using
 the `open()` function. Line 1 specifies the data and model,
@@ -233,21 +230,21 @@ address of the DimmWitted object created in C++):
 
     [JULIA-DW] Created DimmWitted Object: Ptr{Void} @0x00000001067957a0
 
-For a complete list of these parameters, see [Cheat Sheet](/dw/julia_cheetsheet/).
+For a complete list of these parameters, see [Cheat Sheet](/julia_cheatsheet/).
 
 After we create this `dw` object, we need to let it know
 about the two functions, i.e., `loss` and `grad`, that we
 defined. We can do it by
 
-{% highlight julia linenos%}
+```julia
 handle_loss = DimmWitted.register_row(dw, loss)
 handle_grad = DimmWitted.register_row(dw, grad)
-{% endhighlight %}
+```
 
 Each function call will register the function to DimmWitted
 and returns a handle that can be used later. Here, because
 both `loss` and `grad` are row-access functions, we
-use `register_row` here. (See [Cheat Sheet](/dw/julia_cheetsheet/)
+use `register_row` here. (See [Cheat Sheet](/julia_cheatsheet/)
 if you want to register other types of functions.) If these
 run successfully, you should see in the output:
 
@@ -257,10 +254,10 @@ run successfully, you should see in the output:
 Now lets run a function! Lets first see what is the loss
 we can get given the model that we initialized with all zeros:
 
-{% highlight julia linenos%}
+```julia
 rs = DimmWitted.exec(dw, handle_loss)
 println("LOSS: ", rs/nexp)
-{% endhighlight %}
+```
 
 You should see in the output
 
@@ -268,9 +265,9 @@ You should see in the output
 
 We can then run a gradient step:
 
-{% highlight julia linenos%}
+```julia
 rs = DimmWitted.exec(dw, handle_grad)
-{% endhighlight %}
+```
 
 Lets re-calculate the loss, and this time we will
 get
@@ -281,13 +278,13 @@ We see that it gets smaller!
 
 Now we can run ten iterations:
 
-{% highlight julia linenos%}
+```julia
 for iepoch = 1:10
 	rs = DimmWitted.exec(dw, handle_loss)
 	println("LOSS: ", rs/nexp)
 	rs = DimmWitted.exec(dw, handle_grad)
 end
-{% endhighlight %}
+```
 
 and get the final loss
 
@@ -304,12 +301,12 @@ main memory by taking advantage of massive parallelism.
 To speed-up our toy example, we only need to do one single
 twist
 
-{% highlight julia linenos%}
+```julia
 dw = DimmWitted.open(examples, model, 
                 DimmWitted.MR_PERMACHINE,    
                 DimmWitted.DR_SHARDING,      
                 DimmWitted.AC_ROW)
-{% endhighlight %}
+```
 
 If we compare the Line 2, we can see that we are using
 a different strategy called `DimmWitted.MR_PERMACHINE`,
@@ -319,7 +316,6 @@ way. This approach is also known as Hogwild!
 
 After making this changes, you can then register the
 function, and run ten iterations of the gradient step.
-
 
 
 

@@ -16,26 +16,26 @@ compile the DimmWitted support for Julia using stochastic gradient descent
 in DimmWitted that is not covered by this tutorial, following is a list of pages 
 that you might also be interested in.
 
-  1. [How to write other access methods in Julia for DimmWitted?](/julia_scd/) We will
+  1. [How to write other access methods in Julia for DimmWitted?](/dw/julia_scd/) We will
   show you an example of writing SCD with a column-to-row access method.
-  2. [I am getting a Segmentation Fault! What should I do?](/julia_segfault/) We will show you
+  2. [I am getting a Segmentation Fault! What should I do?](/dw/julia_segfault/) We will show you
   the set of assumptions that we made on your Julia functions, how to use
   a simple tool provided by DimmWitted to sanity check these assumptions, and how
   to use the debugging mode in DimmWitted to diagnose the problem.
-  3. [Can I use non-primative data type, e.g., structure, in my data?](/julia_immutable/) Sure, you
+  3. [Can I use non-primative data type, e.g., structure, in my data?](/dw/julia_immutable/) Sure, you
   can, but make sure they are immutable.
-  4. [Can my gradient function accesses some global variables, e.g., stepsize?](/julia_global/) Yes, but you need to see this tutorial.
-  5. [Can I use sparse input matrix?](/julia_sparse/) Yes, you can.
-  6. [Miscellaneous](/julia_misc/). We will document some tips we found in our experience 
+  4. [Can my gradient function accesses some global variables, e.g., stepsize?](/dw/julia_global/) Yes, but you need to see this tutorial.
+  5. [Can I use sparse input matrix?](/dw/julia_sparse/) Yes, you can.
+  6. [Miscellaneous](/dw/julia_misc/). We will document some tips we found in our experience 
   that we hope you also found useful.
-  7. [Cheat Sheet](/julia_cheetsheet/). 
+  7. [Cheat Sheet](/dw/julia_cheetsheet/). 
 
 **Pre-requisites...** To understand this tutorial, we assume that you already went through the
-[installation guideline](/installation/) and have all test passed.
+[installation guideline](/dw/installation/) and have all test passed.
 
 ## Compile the DimmWitted Interface for Julia
 
-Recall from our [installation guideline](/installation/) that you already checked out
+Recall from our [installation guideline](/dw/installation/) that you already checked out
 the code of DimmWitted by
 
     git clone https://github.com/HazyResearch/dimmwitted
@@ -230,7 +230,7 @@ address of the DimmWitted object created in C++):
 
     [JULIA-DW] Created DimmWitted Object: Ptr{Void} @0x00000001067957a0
 
-For a complete list of these parameters, see [Cheat Sheet](/julia_cheatsheet/).
+For a complete list of these parameters, see [Cheat Sheet](/dw/julia_cheatsheet/).
 
 After we create this `dw` object, we need to let it know
 about the two functions, i.e., `loss` and `grad`, that we
@@ -244,7 +244,7 @@ handle_grad = DimmWitted.register_row(dw, grad)
 Each function call will register the function to DimmWitted
 and returns a handle that can be used later. Here, because
 both `loss` and `grad` are row-access functions, we
-use `register_row` here. (See [Cheat Sheet](/julia_cheatsheet/)
+use `register_row` here. (See [Cheat Sheet](/dw/julia_cheatsheet/)
 if you want to register other types of functions.) If these
 run successfully, you should see in the output:
 

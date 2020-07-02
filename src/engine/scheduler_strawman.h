@@ -24,48 +24,47 @@
  * purpose of debugging.
  */
 template<class RDTYPE,
-         class WRTYPE,
-         DataReplType DATAREPL>
-class DWRun<RDTYPE, WRTYPE, DW_MODELREPL_SINGLETHREAD_DEBUG, DATAREPL> {  
+        class WRTYPE,
+        DataReplType DATAREPL>
+class DWRun<RDTYPE, WRTYPE, DW_MODELREPL_SINGLETHREAD_DEBUG, DATAREPL> {
 public:
-  
-  bool isjulia;
+
+    bool isjulia;
 
 
-  int n_numa_node;
+    int n_numa_node;
 
-  int n_thread_per_node;
+    int n_thread_per_node;
 
-  const RDTYPE * const RDPTR;
+    const RDTYPE *const RDPTR;
 
-  WRTYPE * const WRPTR;
+    WRTYPE *const WRPTR;
 
-  void (*p_model_allocator) (WRTYPE ** const, const WRTYPE * const);
+    void (*p_model_allocator)(WRTYPE **const, const WRTYPE *const);
 
-  DWRun(const RDTYPE * const _RDPTR, WRTYPE * const _WRPTR,
-        void (*_p_model_allocator) (WRTYPE ** const, const WRTYPE * const)
-    ):
-    RDPTR(_RDPTR), WRPTR(_WRPTR),
-    p_model_allocator(_p_model_allocator),
-    n_numa_node( numa_max_node() + 1),
-    n_thread_per_node(getNumberOfCores()/(numa_max_node() + 1))
-  {}
+    DWRun(const RDTYPE *const _RDPTR, WRTYPE *const _WRPTR,
+          void (*_p_model_allocator)(WRTYPE **const, const WRTYPE *const)
+    ) :
+            RDPTR(_RDPTR), WRPTR(_WRPTR),
+            p_model_allocator(_p_model_allocator),
+            n_numa_node(numa_max_node() + 1),
+            n_thread_per_node(getNumberOfCores() / (numa_max_node() + 1)) {}
 
-  void prepare(){
+    void prepare() {
 
-  }
-
-  double exec(const long * const tasks, int ntasks,
-             double (*p_map) (long, const RDTYPE * const, WRTYPE * const),
-         void (*p_comm) (WRTYPE ** const, int, int),
-         void (*p_finalize) (WRTYPE * const, int, int)
-    ){
-    double rs = 0.0;
-    for(long i=0;i<ntasks;i++){
-      rs += p_map(tasks[i], RDPTR, WRPTR);
     }
-    return rs;
-  }
+
+    double exec(const long *const tasks, int ntasks,
+                double (*p_map)(long, const RDTYPE *const, WRTYPE *const),
+                void (*p_comm)(WRTYPE **const, int, int),
+                void (*p_finalize)(WRTYPE *const, int, int)
+    ) {
+        double rs = 0.0;
+        for (long i = 0; i < ntasks; i++) {
+            rs += p_map(tasks[i], RDPTR, WRPTR);
+        }
+        return rs;
+    }
 
 };
 

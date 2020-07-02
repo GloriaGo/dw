@@ -42,59 +42,59 @@
  * \tparam DATAREPL Data replication strategy.
  */
 template<class RDTYPE,
-         class WRTYPE, 
-         ModelReplType SCHEDTYPE,
-         DataReplType DATAREPL>
+        class WRTYPE,
+        ModelReplType SCHEDTYPE,
+        DataReplType DATAREPL>
 class DWRun {
 public:
 
-  bool isjulia;
+    bool isjulia;
 
-  int n_numa_node;
+    int n_numa_node;
 
-  int n_thread_per_node;
+    int n_thread_per_node;
 
-  const RDTYPE * const RDPTR; /**<\brief Pointer to the read-only area.*/
+    const RDTYPE *const RDPTR; /**<\brief Pointer to the read-only area.*/
 
-  WRTYPE * const WRPTR; /**<\brief Pointer to the read&write area.*/
+    WRTYPE *const WRPTR; /**<\brief Pointer to the read&write area.*/
 
-  void (*p_model_allocator) (WRTYPE * const, const WRTYPE * const);
-      /**<\brief Function pointer to the function that allocate model
-          replica from a given model.*/
+    void (*p_model_allocator)(WRTYPE *const, const WRTYPE *const);
 
-  DWRun(const RDTYPE * const _RDPTR, WRTYPE * const _WRPTR,
-        void (*_p_model_allocator) (WRTYPE ** const, const WRTYPE * const)
-    ):
-    RDPTR(_RDPTR), WRPTR(_WRPTR),
-    p_model_allocator(_p_model_allocator)
-  {}
+    /**<\brief Function pointer to the function that allocate model
+        replica from a given model.*/
 
-  /**
-   * \brief Do things like replicate models etc. Can only be called once before
-   * DWRun::exec().
-   */
-  void prepare();
+    DWRun(const RDTYPE *const _RDPTR, WRTYPE *const _WRPTR,
+          void (*_p_model_allocator)(WRTYPE **const, const WRTYPE *const)
+    ) :
+            RDPTR(_RDPTR), WRPTR(_WRPTR),
+            p_model_allocator(_p_model_allocator) {}
 
-  /**
-   * \brief Execute one pass over the read-only data. 
-   *
-   * \param tasks A list of long numbers, each of which will
-   * be used to call p_map.
-   * \param ntasks Number of long numbers for the above array.
-   * \param p_map For each long number in tasks, this function
-   * takes as input that long number, and the pointer
-   * to the read-only area and write area, and do something
-   * that the engine does not care.
-   * \param p_comm Given a set of models, number of models, and
-   * an id to one model, this function reads the other models
-   * and update the model with the given id. See f_lr_modelavg()
-   * in app/glm_dense_sgd.h for an example.
-   * \param p_finalize Ignore this guy...
-   */
-  double exec(const long * const tasks, int ntasks,
-         void (*p_map) (long, const RDTYPE * const, WRTYPE * const),
-         void (*p_comm) (WRTYPE ** const, int, int),
-         void (*p_finalize) (WRTYPE * const, int, int)
+    /**
+     * \brief Do things like replicate models etc. Can only be called once before
+     * DWRun::exec().
+     */
+    void prepare();
+
+    /**
+     * \brief Execute one pass over the read-only data.
+     *
+     * \param tasks A list of long numbers, each of which will
+     * be used to call p_map.
+     * \param ntasks Number of long numbers for the above array.
+     * \param p_map For each long number in tasks, this function
+     * takes as input that long number, and the pointer
+     * to the read-only area and write area, and do something
+     * that the engine does not care.
+     * \param p_comm Given a set of models, number of models, and
+     * an id to one model, this function reads the other models
+     * and update the model with the given id. See f_lr_modelavg()
+     * in app/glm_dense_sgd.h for an example.
+     * \param p_finalize Ignore this guy...
+     */
+    double exec(const long *const tasks, int ntasks,
+                void (*p_map)(long, const RDTYPE *const, WRTYPE *const),
+                void (*p_comm)(WRTYPE **const, int, int),
+                void (*p_finalize)(WRTYPE *const, int, int)
     );
 
 };

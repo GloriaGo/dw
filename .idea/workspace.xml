@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated />
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c016ba48-362d-49da-bf91-ffd4c8cb03f7" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/examples/example.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/examples/example.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/logistic_regression_dense_scd.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/examples/logistic_regression_dense_scd.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/logistic_regression_dense_sgd.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/examples/logistic_regression_dense_sgd.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/logistic_regression_sparse_sgd.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/examples/logistic_regression_sparse_sgd.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/glm_dense_scd.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/glm_dense_scd.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/glm_dense_sgd.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/glm_dense_sgd.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/glm_sparse_sgd.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/glm_sparse_sgd.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dimmwitted_const.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/dimmwitted_const.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/dimmwitted_dstruct.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/dimmwitted_dstruct.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/engine/dimmwitted_dense.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/engine/dimmwitted_dense.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/engine/dimmwitted_sparse.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/engine/dimmwitted_sparse.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/engine/scheduler.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/engine/scheduler.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/engine/scheduler_percore.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/engine/scheduler_percore.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/engine/scheduler_pernode.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/engine/scheduler_pernode.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/engine/scheduler_strawman.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/engine/scheduler_strawman.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/util.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/util.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/glm.cc" beforeDir="false" afterPath="$PROJECT_DIR$/test/glm.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/glm_dense.cc" beforeDir="false" afterPath="$PROJECT_DIR$/test/glm_dense.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/glm_sparse.cc" beforeDir="false" afterPath="$PROJECT_DIR$/test/glm_sparse.cc" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectConfigurationFiles">
+    <option name="files">
+      <list>
+        <option value="$PROJECT_DIR$/.idea/dw.iml" />
+        <option value="$PROJECT_DIR$/.idea/misc.xml" />
+        <option value="$PROJECT_DIR$/.idea/vcs.xml" />
+        <option value="$PROJECT_DIR$/.idea/modules.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1e7RU1cwX6Xxu66fb7vkrbxHHoO" />
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c016ba48-362d-49da-bf91-ffd4c8cb03f7" name="Default Changelist" comment="" />
+      <created>1593670656575</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1593670656575</updated>
+      <workItem from="1593670658018" duration="2921000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

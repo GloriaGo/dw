@@ -6,12 +6,13 @@
  * \brief Class for dense vector of type A.
  */
 template<class A>
-class DenseVector{
+class DenseVector {
 public:
-    A * p;
+    A *p;
     long n;
-    DenseVector(A * _p, int _n) :
-        p(_p), n(_n){}
+
+    DenseVector(A *_p, int _n) :
+            p(_p), n(_n) {}
 };
 
 /**
@@ -29,20 +30,21 @@ public:
    \endverbatim
  */
 template<class A>
-class SparseVector{
+class SparseVector {
 public:
-    A * p;
-    long * idxs;
+    A *p;
+    long *idxs;
     long n;
-    SparseVector(A * _p, long * _idxs, int _n) :
-        p(_p), idxs(_idxs), n(_n){}
+
+    SparseVector(A *_p, long *_idxs, int _n) :
+            p(_p), idxs(_idxs), n(_n) {}
 };
 
 /**
  * A pair consists of type A and Type B.
  */
 template<class A, class B>
-class Pair{
+class Pair {
 public:
     A first;
     B second;

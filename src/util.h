@@ -22,7 +22,7 @@
 #include <sstream>
 #include <sys/sysctl.h>
 #include <assert.h>
-#include <iomanip>  
+#include <iomanip>
 #include <future>
 #include <unistd.h>
 #include <time.h>
@@ -36,7 +36,7 @@
  * for both Mac and Linux.
  */
 int getNumberOfCores() {
-  #ifdef __MACH__
+#ifdef __MACH__
     int nm[2];
     size_t len = 4;
     uint32_t count;
@@ -50,9 +50,9 @@ int getNumberOfCores() {
         if(count < 1) { count = 1; }
     }
     return count;
-  #else
+#else
     return sysconf(_SC_NPROCESSORS_ONLN);
-  #endif
+#endif
 }
 
 
@@ -62,15 +62,17 @@ int getNumberOfCores() {
  * to do nothing.
  */
 #ifndef __MACH__
-    #include <numa.h>
-    #include <numaif.h>
+
+#include <numa.h>
+#include <numaif.h>
+
 #endif
 
 #ifdef __MACH__
-    #define numa_alloc_onnode(X,Y) malloc(X)
-    #define numa_max_node() 0
-    #define numa_run_on_node(X) 0
-    #define numa_set_localalloc() 0
+#define numa_alloc_onnode(X,Y) malloc(X)
+#define numa_max_node() 0
+#define numa_run_on_node(X) 0
+#define numa_set_localalloc() 0
 #endif
 
 
@@ -93,21 +95,21 @@ int clock_gettime(int /*clk_id*/, struct timespec* t) {
 #define CLOCK_MONOTONIC 0
 #endif
 
-class Timer {
-public:
-    struct timespec _start;
-    struct timespec _end;
-    Timer(){
-        clock_gettime(CLOCK_MONOTONIC, &_start);
-    }
-    virtual ~Timer(){}
-    inline void restart(){
-        clock_gettime(CLOCK_MONOTONIC, &_start);
-    }
-    inline float elapsed(){
-        clock_gettime(CLOCK_MONOTONIC, &_end);
-        return (_end.tv_sec - _start.tv_sec) + (_end.tv_nsec - _start.tv_nsec) / 1000000000.0;
-    }
+class Timer{
+        public:
+        struct timespec _start;
+        struct timespec _end;
+        Timer(){
+            clock_gettime(CLOCK_MONOTONIC, &_start);
+        }
+        virtual ~Timer(){}
+        inline void restart(){
+            clock_gettime(CLOCK_MONOTONIC, &_start);
+        }
+        inline float elapsed(){
+            clock_gettime(CLOCK_MONOTONIC, &_end);
+            return (_end.tv_sec - _start.tv_sec) + (_end.tv_nsec - _start.tv_nsec) / 1000000000.0;
+        }
 };
 
 #endif
